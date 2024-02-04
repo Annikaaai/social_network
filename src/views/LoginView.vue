@@ -1,5 +1,5 @@
 <template>
-    <LoginComp msg="Welcome to Your Vue.js App"/>
+    <LoginComp />
 </template>
 <script>
 import LoginComp from '@/components/LoginComp.vue'

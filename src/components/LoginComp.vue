@@ -17,7 +17,7 @@
                 outlined
             ></v-text-field>
 
-            <v-btn @click="authenticate">
+            <v-btn @click="auth">
                 Войти
             </v-btn>
         </v-card>
@@ -25,6 +25,19 @@
 </template>
 <script>
 export default {
-    name: 'LoginComp'
+  name: 'LoginComp',
+    data: () => ({
+    login: "",
+    password: ""
+  }),
+  methods: {
+    auth() {
+        
+      this.$emit('authenticate', { // создаем ивент для того, чтобы App.vue мог получить данные
+        login: this.login, // отправляем в ивенте данные
+        password: this.password, // отправляем в ивенте данные
+      });
+    },
+  },
 }
 </script>
