@@ -1,44 +1,65 @@
 <template>
-  <nav>
+  <!-- <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/login" @authenticate="authenticateUser(user)">Login</router-link>
+  </nav> -->
+  <!-- <RightNav/> -->
+  <router-view v-on:login="UpdateUser"/>
 
-  </nav>
-  <router-view/>
+
+  <v-card>
+      <v-layout>
+        <v-navigation-drawer
+          permanent
+          location="right"
+        >
+          <template v-slot:prepend>
+            <v-list-item
+              lines="two"
+              prepend-avatar="https://randomuser.me/api/portraits/women/82.jpg"
+              title="Jane Smith"
+              subtitle="Logged in"
+            ></v-list-item>
+          </template>
+          <v-divider></v-divider>
+          <v-list density="compact" nav class = "navigation">
+            <div v-if="login" class = "navigation_item"><router-link to="/login">Login</router-link></div>
+            <div v-if="login" class = "navigation_item"><router-link to="/register">Register</router-link></div>
+
+            <div v-if="auth" class = "navigation_item"><router-link to="/">News</router-link></div>
+            <div  v-if="auth" class = "navigation_item" ><router-link to="/my_page">My page</router-link></div>
+            <div v-if="auth" class = "navigation_item"><router-link to="/friends">Friends</router-link></div>
+          </v-list>
+        </v-navigation-drawer>
+      </v-layout>
+  </v-card>
+
 </template>
 <script>
-// import LoginComp from './components/LoginComp.vue'
+// import RightNav from './components/RightNav.vue'
 export default {
   name: 'App',
   components: {
-    // LoginComp
+    // RightNav
   },
-  data: () => ({
-    
-  }),
+  data(){
+    return {auth : false, login : true}
+  },
   methods: {
-    authenticateUser(user){
-      console.log('I am here')
-        this.axios.get('https://65bdfc43dcfcce42a6f1aab3.mockapi.io/users/api/users') 
-        .then(
-          (response) => {
-          let users = response.data;
-          let found = false;
-          for(let index in users){
-              if(user.login == users[index].login && user.password == users[index].password){
-                  this.$router.push('/users/' + this.myId);
-                  found = true;
-                  break;
-              }
-              if(!found){
-                window.alert('Неверный логин или пароль')
-              }
-            }
-          }
-        )
 
-  },
+    UpdateUser(){
+      this.auth = true;
+      this.login = false;
+
+      // alert("Hello")
+      // document.getElementById('#nav-item').classList.remove('.nav_display_none');
+      //             document.getElementById('#nav-item').classList.add('.nav_display_block');
+
+      //             document.getElementById('#nav_item_login').classList.remove('.nav_display_block');
+      //             document.getElementById('#nav_item_login').classList.add('.nav_display_none');
+    },
+    // ,
   // authenticateUser(user){
   //   this.axios({
   //       method: 'get',
@@ -74,5 +95,23 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+nav div.router-link-exact-active{
+  background: #2c3e50;
+}
+.navigation{
+  display: block;
+}
+.navigation_item{
+  background: #eaeaea;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+}
+.nav_display_block{
+  display: block;
+}
+.nav_display_none{
+  display: none;
 }
 </style>
